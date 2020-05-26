@@ -1,3 +1,4 @@
+pub extern crate random;
 extern crate rayon;
 
 pub mod layer;

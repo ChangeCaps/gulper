@@ -31,3 +31,12 @@ impl<L> Evolve for InputLayer<L> {
         self
     }
 }
+
+impl<L> std::fmt::Display for InputLayer<L> {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
+        writeln!(formatter, "Input Layer")?;
+        writeln!(formatter)?;
+
+        Ok(())
+    }
+}

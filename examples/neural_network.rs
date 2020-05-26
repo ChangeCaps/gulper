@@ -2,11 +2,13 @@ extern crate gulper;
 
 use gulper::layer::Layer;
 use gulper::layers::*;
+use gulper::random;
 
 fn main() {
-    let network = InputLayer::new()
-        .layer(DenseLayer::new(2, 2))
-        .layer(DenseLayer::new(2, 3));
+    let mut random = random::Default::new();
 
-    println!("{:?}", network.activate(&vec![0.3, 0.6]));
+    let network = InputLayer::new().layer(NeatLayer::random(2, 3, &mut random));
+
+    println!("{:?}", network);
+    println!("{:?}", network.activate(&vec![0.5, -1.0]));
 }

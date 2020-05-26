@@ -15,6 +15,10 @@ pub trait Layer: Sized + std::fmt::Debug {
     }
 }
 
+pub trait Evolve {
+    fn evolve(self, other: Self) -> Self;
+}
+
 #[derive(Debug)]
 pub struct LayerContainer<L, N> {
     layer: L,
@@ -36,6 +40,28 @@ where
     }
 }
 
-pub trait Evolve {
-    fn evolve(self, other: Self) -> Self;
+impl<L, N> Evolve for LayerContainer<L, N>
+where
+    L: Evolve,
+    N: Evolve,
+{
+    fn evolve(self, other: Self) -> Self {
+        Self {
+            layer: self.layer.evolve(other.layer),
+            next: self.next.evolve(other.next),
+        }
+    }
+}
+
+impl<L, N> std::fmt::Display for LayerContainer<L, N>
+where
+    L: std::fmt::Display,
+    N: std::fmt::Display,
+{
+    fn fmt(&self, formatter: &mut std::fmt::Formatter) -> Result<(), std::fmt::Error> {
+        writeln!(formatter, "{}", self.layer)?;
+        writeln!(formatter, "{}", self.next)?;
+
+        Ok(())
+    }
 }
